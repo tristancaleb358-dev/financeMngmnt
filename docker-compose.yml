@@ -6,7 +6,8 @@ services:
   # --------------------
   web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    # command: python manage.py runserver 0.0.0.0:8000
+    restart: always
     volumes:
       - .:/app
     ports:
@@ -33,6 +34,7 @@ services:
       - POSTGRES_DB=django_db
       - POSTGRES_USER=django_user
       - POSTGRES_PASSWORD=django_password
+      - POSTGRES_PORT=5432
     ports:
       - "5432:5432"
 

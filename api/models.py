@@ -7,7 +7,8 @@ class BASIC(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     updated_by = models.CharField(max_length=200, null=True, blank=True)
     created_by = models.CharField(max_length=200, null=True, blank=True)
-
+    class Meta:
+        ordering = ["created_at"]
 
 
 class CUSTOMER(BASIC):
