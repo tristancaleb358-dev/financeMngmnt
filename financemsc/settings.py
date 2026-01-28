@@ -11,7 +11,22 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
+# Load environment variables from .env file
+load_dotenv()
+
+# Access variables
+SECRET_KEY = os.getenv("SECRET_KEY")
+DEBUG = os.getenv("DEBUG") == "True" # Convert string "True" to boolean True
+DB_USER =  os.getenv("DB_USER")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+DB_HOST = os.getenv("DB_HOST")
+DB_PORT = os.getenv("DB_PORT")
+
+# Example for a default value if the variable is not set
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "127.0.0.1").split(",")
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,12 +35,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-lj5%j_@ug*$!%@xcf$pg)&xszcfcw5rt$5&3o-=!)jssb2_m(%'
+# SECRET_KEY = 'django-insecure-lj5%j_@ug*$!%@xcf$pg)&xszcfcw5rt$5&3o-=!)jssb2_m(%'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# # SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -37,10 +52,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',    
-    'rest_framework',
-    'api'
-
+    'rest_framework'
 ]
+
+ADDED_APPS = [
+    'api',
+    'drf_yasg'
+    ]
+
+INSTALLED_APPS += ADDED_APPS
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -78,10 +99,12 @@ WSGI_APPLICATION = 'financemsc.wsgi.application'
 
 DATABASES = {
     'default': {
-        'USER': 'django_user',
-        'PASSWORD': 'django_password',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        "ENGINE": "django.db.backends.postgresql",
+        'USER': DB_USER,
+        'PASSWORD': DB_PASSWORD,
+        'NAME': os.getenv("DB_NAME"),
+        'HOST': DB_HOST,
+        'PORT': DB_PORT,
     }
 }
 
@@ -104,7 +127,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+REST_FRAMEWORK = {
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 10,
+}
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 

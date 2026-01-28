@@ -1,7 +1,9 @@
-version: '3.8'
+version: "3.8"
 
 services:
+  # --------------------
   # Django application
+  # --------------------
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
@@ -18,16 +20,62 @@ services:
       - DJANGO_DB_USER=django_user
       - DJANGO_DB_PASSWORD=django_password
 
-  # PostgreSQL Database
+  # --------------------
+  # PostgreSQL (Django)
+  # --------------------
   db:
-    image: postgres:13
+    image: postgres:14
+    container_name: django-postgres
+    restart: always
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_django_data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=django_db
       - POSTGRES_USER=django_user
       - POSTGRES_PASSWORD=django_password
+    ports:
+      - "5432:5432"
 
-# Volumes for persistent data
+  # --------------------
+  # PostgreSQL (WSO2)
+  # --------------------
+  wso2_db:
+    image: postgres:13
+    container_name: wso2-postgres
+    restart: always
+    volumes:
+      - postgres_wso2_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=wso2am
+      - POSTGRES_USER=wso2user
+      - POSTGRES_PASSWORD=wso2password
+      - POSTGRES_PORT=5433
+    ports:
+      - "5433:5433"
+
+  # --------------------
+  # WSO2 API Manager
+  # --------------------
+  wso2apim:
+    image: wso2/wso2am:latest
+    container_name: wso2-apim
+    depends_on:
+      - wso2_db
+    restart: always
+    ports:
+      - "9443:9443"   # Management Console
+      - "8243:8243"   # HTTPS Gateway
+      - "8280:8280"   # HTTP Gateway
+    environment:
+      - JAVA_OPTS=-Xms1024m -Xmx2048m
+    volumes:
+      - ./deployment.toml:/home/wso2carbon/wso2am-4.2.0/repository/conf/deployment.toml
+      - wso2_logs:/home/wso2carbon/wso2am-4.2.0/repository/logs
+
+# --------------------
+# Volumes
+# --------------------
 volumes:
-  postgres_data:
+  postgres_django_data:
+  postgres_wso2_data:
+  wso2_logs:

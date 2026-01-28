@@ -1,0 +1,15 @@
+# Ignore common virtual environment folders
+env/
+venv/
+.venv/
+
+# Ignore environment variable files
+.env
+.env.local
+.env.*.local
+
+# Optional: caches and editor settings
+__pycache__/
+*.py[cod]
+.vscode/
+.idea/

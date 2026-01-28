@@ -1,0 +1,13 @@
+[database.apim_db]
+type = "postgre"
+url = "jdbc:postgresql://wso2_db:5433/wso2am"
+username = "wso2user"
+password = "wso2password"
+driver = "org.postgresql.Driver"
+
+[database.shared_db]
+type = "postgre"
+url = "jdbc:postgresql://wso2_db:5433/wso2am"
+username = "wso2user"
+password = "wso2password"
+driver = "org.postgresql.Driver"
