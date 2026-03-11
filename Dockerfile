@@ -13,12 +13,24 @@ COPY requirements.txt /app/
 # Install the dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the project into the container
+# # Copy the rest of the project into the container
+# COPY . /app/
+
+# # # make migrations
+# # RUN python manage.py makemigrations
+
+# # # migrate
+# # RUN python manage.py migrate
+
+# # Expose the port that the Django app will run on (default is 8000)
+# EXPOSE 8000
+
+# # Command to run the Django app
+
+# CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 COPY . /app/
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
 
-# Expose the port that the Django app will run on (default is 8000)
 EXPOSE 8000
-
-# Command to run the Django app
-
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+ENTRYPOINT ["/app/entrypoint.sh"]

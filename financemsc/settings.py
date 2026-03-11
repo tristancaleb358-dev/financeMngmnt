@@ -19,7 +19,7 @@ load_dotenv()
 
 # Access variables
 SECRET_KEY = os.getenv("SECRET_KEY")
-DEBUG = os.getenv("DEBUG") == "True" # Convert string "True" to boolean True
+DEBUG = os.environ.get("DEBUG") == "True" # Convert string "True" to boolean True
 DB_USER =  os.getenv("DB_USER")
 DB_PASSWORD = os.getenv("DB_PASSWORD")
 DB_HOST = os.getenv("DB_HOST")
@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',    
-    'rest_framework'
+    'rest_framework',
+     'django_filters'
 ]
 
 ADDED_APPS = [
