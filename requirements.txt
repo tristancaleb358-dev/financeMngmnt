@@ -23,3 +23,4 @@ typing_extensions
 tzdata
 uritemplate
 python-dotenv
+django-filter==2.4.0

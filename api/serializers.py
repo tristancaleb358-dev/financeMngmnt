@@ -63,6 +63,21 @@ class ExpenseSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class SubscriptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subscription
+        fields = '__all__'
+
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
+        fields = '__all__'
+
+class PerformanceMetricSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PerformanceMetric
+        fields = '__all__'
+
 class SavingsGoalSerializer(serializers.ModelSerializer):
     user = CustomerSerializer(read_only=True)
     user_id = serializers.PrimaryKeyRelatedField(
