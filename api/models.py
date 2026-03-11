@@ -50,12 +50,21 @@ class Income(models.Model):
     date = models.DateField()
     price = models.JSONField(default=dict)
     category = models.ForeignKey(IncomeCategory, on_delete=models.CASCADE, related_name='incomes')
+    class Meta:
+        indexes = [
+            models.Index(fields=['name']),
+        ]
 
 class ExpenseCategory(BASIC):
     name = models.CharField(max_length=100)
+    code = models.CharField(max_length=50, null=False)
     description = models.TextField()
     budget_limit = models.FloatField()
     periodicity = models.CharField(max_length=50)
+    class Meta:
+        indexes = [
+            models.Index(fields=['code']),
+        ]
 
 class Expense(BASIC):
     name = models.CharField(max_length=100)
@@ -90,6 +99,7 @@ class PerformanceMetric(models.Model):
 
 class Subscription(models.Model):
     name = models.TextField()
+    code = models.CharField(max_length=50, null=False)
     description = models.TextField()
     user = models.ForeignKey(CUSTOMER, on_delete=models.CASCADE)
     price = models.JSONField(default=dict)
