@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import permissions, viewsets
 from .serializers import CustomerSerializer
-from .models import CUSTOMER
+from .models import User
 
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -9,7 +9,7 @@ from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 from .models import (
-    CUSTOMER, IncomeCategory, Income, ExpenseCategory, Expense,
+    User, IncomeCategory, Income, ExpenseCategory, Expense,
     SavingsGoal, PerformanceMetric, Subscription, Payment
 )
 from .serializers import (
@@ -30,7 +30,7 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
 
 
 class CustomerViewSet(viewsets.ModelViewSet):
-    queryset = CUSTOMER.objects.all().order_by('created_at')
+    queryset = User.objects.all().order_by('created_at')
     serializer_class = CustomerSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ['active', 'status']

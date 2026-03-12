@@ -1,13 +1,13 @@
 from rest_framework import serializers
 from .models import (
-    CUSTOMER, IncomeCategory, Income, ExpenseCategory, Expense,
+    User, IncomeCategory, Income, ExpenseCategory, Expense,
     SavingsGoal, PerformanceMetric, Subscription, Payment
 )
 from django.contrib.auth.hashers import make_password
 
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CUSTOMER
+        model = User
         fields = [
             'id', 'first_name', 'last_name', 'iso2Country', 'iso3Country',
             'address', 'email', 'date_of_birth', 'birth_date', 'status',
@@ -81,7 +81,7 @@ class PerformanceMetricSerializer(serializers.ModelSerializer):
 class SavingsGoalSerializer(serializers.ModelSerializer):
     user = CustomerSerializer(read_only=True)
     user_id = serializers.PrimaryKeyRelatedField(
-        queryset=CUSTOMER.objects.all(), source='user', write_only=True
+        queryset=User.objects.all(), source='user', write_only=True
     )
     income_categories = IncomeCategorySerializer(many=True, read_only=True)
     expense_categories = ExpenseCategorySerializer(many=True, read_only=True)

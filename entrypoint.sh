@@ -6,10 +6,10 @@ echo "⏳ Attente DB..."
 sleep 2
 
 echo "🚀 Make migrations..."
-python manage.py makemigrations --noinput
+python manage.py makemigrations api
 
 echo "🚀 Migrations..."
-python manage.py migrate --noinput
+python manage.py migrate api
 
 echo "✅ Serveur..."
 exec python manage.py runserver 0.0.0.0:8000

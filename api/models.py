@@ -9,31 +9,7 @@ class BASIC(models.Model):
     created_by = models.CharField(max_length=200, null=True, blank=True)
     class Meta:
         ordering = ["created_at"]
-
-
-
-class CUSTOMER(BASIC):
-    first_name = models.TextField()
-    last_name = models.TextField()
-    iso2Country = models.TextField()
-    iso3Country = models.TextField()
-    address = models.TextField()
-    email = models.EmailField(unique=True, null=False, blank=False)  
-    password = models.CharField(max_length=50, null=False, blank=False)
-    date_of_birth = models.DateField(null=False, blank=True)
-    last_name = models.TextField()
-    first_name = models.TextField()
-    birth_date = models.DateField()
-    status = models.CharField(max_length=500, null=False)
-    phone = models.CharField(unique= True, max_length=20, null=False, blank=False)
-    active = models.BooleanField(default=True)
-    
-    class Meta:
-        indexes = [
-            models.Index(fields=['email', 'phone']),
-        ]
-    def __str__(self):  
-        return self.first_name + " " + self.last_name  
+        abstract = True
 
 
 # New Models
@@ -43,6 +19,28 @@ class IncomeCategory(BASIC):
     is_recurring = models.BooleanField(default=False)
     periodicity = models.CharField(max_length=50)
     is_fixed = models.BooleanField(default=True)
+
+class User(BASIC):
+    first_name = models.TextField()
+    last_name = models.TextField()
+    iso2Country = models.TextField()
+    iso3Country = models.TextField()
+    address = models.TextField()
+    email = models.EmailField(unique=True, null=False, blank=False)
+    password = models.CharField(max_length=50, null=False, blank=False)
+    date_of_birth = models.DateField(null=False, blank=True)
+    birth_date = models.DateField()
+    status = models.CharField(max_length=500, null=False)
+    phone = models.TextField(unique=True, null=False, blank=False)
+    active = models.BooleanField(default=True)
+    
+    class Meta:
+        indexes = [
+            models.Index(fields=['email', 'phone']),
+        ]
+    
+    def __str__(self):
+        return self.first_name + " " + self.last_name
 
 class Income(models.Model):
     name = models.CharField(max_length=100)
@@ -87,7 +85,7 @@ class SavingsGoal(BASIC):
     currency = models.CharField(max_length=3, null=False)
     saving_history = models.JSONField(default=list) # Pour stocker List<Dict>
     priority = models.CharField(max_length=2, choices=Priority.choices)
-    user = models.ForeignKey(CUSTOMER, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     income_categories = models.ManyToManyField(IncomeCategory)
     expense_categories = models.ManyToManyField(ExpenseCategory)
 
@@ -101,7 +99,7 @@ class Subscription(models.Model):
     name = models.TextField()
     code = models.CharField(max_length=50, null=False)
     description = models.TextField()
-    user = models.ForeignKey(CUSTOMER, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     price = models.JSONField(default=dict)
     description = models.TextField()
     def __str(self):
