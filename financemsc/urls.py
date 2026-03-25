@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path ,re_path
 from rest_framework import routers
-from api.views import CustomerViewSet
+from api.views import *
 from rest_framework import permissions
 
 from drf_yasg.views import get_schema_view
@@ -38,6 +38,14 @@ schema_view = get_schema_view(
 
 router = routers.DefaultRouter()
 router.register(r"customers", CustomerViewSet)
+router.register(r"incomeCategory", IncomeCategoryViewSet)
+router.register(r"income", IncomeViewSet)
+router.register(r"expenseCategory", ExpenseCategoryViewSet)
+router.register(r"expense", ExpenseViewSet)
+router.register(r"savingsGoal", SavingsGoalViewSet)
+router.register(r"performanceMetric", PerformanceMetricViewSet)
+router.register(r"subscription", SubscriptionViewSet)
+router.register(r"payment", PaymentViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
