@@ -68,8 +68,8 @@ class IncomeViewSet(viewsets.ModelViewSet):
             permission_classes = [permissions.IsAuthenticatedOrReadOnly]
         return [permission() for permission in permission_classes]
 
-    def get_queryset(self):
-        return self.queryset.filter(user=self.request.user)
+    # def get_queryset(self):
+    #     return self.queryset.filter(user=self.request.user)
 
 
 class ExpenseCategoryViewSet(viewsets.ModelViewSet):
@@ -92,8 +92,8 @@ class ExpenseViewSet(viewsets.ModelViewSet):
             permission_classes = [permissions.IsAuthenticatedOrReadOnly]
         return [permission() for permission in permission_classes]
 
-    def get_queryset(self):
-        return self.queryset.filter(user=self.request.user)
+    # def get_queryset(self):
+    #     return self.queryset.filter(user=self.request.user)
 
 
 class SavingsGoalViewSet(viewsets.ModelViewSet):
@@ -121,8 +121,8 @@ class PerformanceMetricViewSet(viewsets.ModelViewSet):
     serializer_class = PerformanceMetricSerializer
     permission_classes = [IsOwnerOrReadOnly]
 
-    def get_queryset(self):
-        return self.queryset.filter(goal__user=self.request.user)
+    # def get_queryset(self):
+    #     return self.queryset.filter(goal__user=self.request.user)
 
 
 class SubscriptionViewSet(viewsets.ModelViewSet):
@@ -133,8 +133,8 @@ class SubscriptionViewSet(viewsets.ModelViewSet):
     filterset_fields = ['name']
     search_fields = ['name', 'description']
 
-    def get_queryset(self):
-        return self.queryset.filter(user=self.request.user)
+    # def get_queryset(self):
+    #     return self.queryset.filter(user=self.request.user)
 
 
 class PaymentViewSet(viewsets.ModelViewSet):
@@ -146,5 +146,5 @@ class PaymentViewSet(viewsets.ModelViewSet):
     search_fields = ['subscription__name']
     ordering_fields = ['period']
 
-    def get_queryset(self):
-        return self.queryset.filter(subscription__user=self.request.user)
+    # def get_queryset(self):
+    #     return self.queryset.filter(subscription__user=self.request.user)
