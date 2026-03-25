@@ -97,16 +97,15 @@ class ExpenseViewSet(viewsets.ModelViewSet):
 
 
 class SavingsGoalViewSet(viewsets.ModelViewSet):
-    queryset = SavingsGoal.objects.all()
+    queryset = SavingsGoal.objects.all().order_by('created_at')
     serializer_class = SavingsGoalSerializer
     permission_classes = [IsOwnerOrReadOnly]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_fields = ['priority', 'currency']
+    filterset_fields = ['priority', 'currency', "user", "user__first_name", "user__last_name", "user__phone"]
     search_fields = ['name', 'description']
     ordering_fields = ['start_date', 'end_date', 'total_target_amount']
 
-    def get_queryset(self):
-        return self.queryset.filter(user=self.request.user)
+    
 
     @action(detail=True, methods=['get'])
     def progress(self, request, pk=None):
